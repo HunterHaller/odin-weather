@@ -78,23 +78,6 @@ const getNewWeather = async () => {
     }
 }
 
-const getNewGif = () => {
-    const search = searchField.value;
-    console.log("Searching for " + search);
-
-    fetch('https://api.giphy.com/v1/gifs/translate?api_key=YalzJSIhPzvLn4Gxy90lSOoEBsGbSoPU&s=' + search)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (response) {
-            img.src = response.data.images.original.url;
-        })
-        .catch(function (error) {
-            console.log(error);
-            console.log("Oh no! Can't search for " + search);
-        })
-}
-
 const searchField = document.querySelector("#search-field");
 const weatherButton = document.querySelector("#weather-button");
 
