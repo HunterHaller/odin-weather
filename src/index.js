@@ -1,17 +1,26 @@
 //index.js
 import "./styles.css";
-import { greeting } from "./greeting.js";
-import { parse } from "date-fns";
+import { format } from "date-fns"; // for time formatting
 
 const weatherDiv = document.querySelector("#weather-spot");
 
 let jsonResponse = undefined;
 let usableWeatherObj = undefined;
 
+const createTimestamp = () => {
+    const timestampDiv = document.querySelector("#timestamp");
+    timestampDiv.textContent = ""; //clear content
+
+    const now = Date.now();
+    timestampDiv.textContent = "As of " + format(now, 'p') +", " + format(now, 'LL/dd');
+}
+
 //parseWeather: take in a JSONified weather response and spit out an object containing relevant data.
 const parseWeather = (jsonResponse) => {
     //where response is json returned in a promise...
     console.log("Getting weather info for " + jsonResponse.address);
+
+    createTimestamp();
     
     //let newJSON = response;
     
@@ -28,16 +37,13 @@ const parseWeather = (jsonResponse) => {
 
 const printData = (weatherObject) => {
     //Clear weather data div:
-    weatherDiv.textContent = "";
-
+    
     const locationDiv = document.createElement("div");
     locationDiv.textContent = "Location: " + weatherObject.location;
 
     const descDiv = document.createElement("div");
     descDiv.textContent = "Forecast: " + weatherObject.description;
 
-    weatherDiv.appendChild(locationDiv);
-    weatherDiv.appendChild(descDiv);
 }
 
 //Initial weather call for my city using fetch:

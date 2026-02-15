@@ -9,14 +9,34 @@
 </head>
 
 <body>
-    <h1>BEHOLD, THE WEATHER:</h1>
-    <div id="weather-spot"></div>
+    <div id="background">
+        <div id="full-banner">
+            <div id="banner-left">
+                <div id="banner-title">
+                    <h1>5-DAY</h1>
+                    <h1>FORECAST</h1>
+                </div>
+            </div>
+            <div id="banner-right">
+                <h2 id="location-name-display"></h2>
+            </div>
+        </div> <!--End header-->
 
-    <br>
-
-    <input id="search-field" name="weather-search" type="text">
-    <button id="weather-button" for="weather-search">SEARCH</button>
-
+        <div id="weather-search">
+            <span>GET WEATHER FOR:</span>
+            <input type="text" name="newLocation">
+            <button id="weather-button">Forecast</button>
+        </div>
+        <div id="weather-data">
+            <div class="day" id="day1">
+                <div class="day-banner">WED</div> <!-- today -->
+            </div>
+        </div>
+        <div id="attribution-info">
+            <span id="support">supported by visualcrossing</span>
+            <span id="timestamp"></span> <!-- Insert text including current time and date when data is pulled. -->
+        </div>
+    </div>
 </body>
 
 </html>
