@@ -2,8 +2,13 @@
     text-shadow: 2px 2px 1px black;
 }
 
+.loading {
+    cursor: url('https://cdn.cursors-4u.net/css-previews/wii-loading-c67a58c9-css.webp') 5 5, auto !important;
+}
+
 body {
-    background-color: rgb(17, 130, 175);
+    background: #6bd8ff;
+    background: linear-gradient(90deg,rgba(107, 216, 255, 1) 0%, rgba(7, 0, 145, 1) 100%);
     margin: 0;
     margin-top: 10px;
     font-family: sans-serif;
@@ -70,6 +75,10 @@ h1 {
     margin-top: 20px;
 }
 
+input {
+    text-shadow: none;
+}
+
 button {
     text-shadow: none;
 }
@@ -92,8 +101,8 @@ button {
 }
 
 .day {
-    height: 80%;
     width: 18vw;
+    max-height: 580px;
 
     background: #025cc9;
     background: linear-gradient(180deg, rgba(2, 92, 201, 1) 0%, rgba(0, 16, 107, 1) 100%);
@@ -104,16 +113,38 @@ button {
     font-size: 25pt;
 }
 
-.weather-icon {
-    width: 16vw;
+.icon-holder {
+    width: 18vw;
+    height: 15vw;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 15vw;
+}
+
+@keyframes iconLoad {
+    from {opacity: 0; left: 60px}
+    to {opacity: 1; left: 0px}
+}
+
+.icon-holder > img {
+    animation-name: iconLoad;
+    animation-duration: 3s;
+
+    position: relative;
+    
+    width: 18vw;
+    height: 15vw;
+    object-fit: scale-down;
 }
 
 .high {
-    font-size: 3vw;
+    font-size: 4vw;
     color: yellow;
 }
 
 .low {
+    font-size: 3vw;
     color: rgb(188, 255, 255);
 }
 

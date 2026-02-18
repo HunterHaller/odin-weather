@@ -10,6 +10,50 @@ const weatherDiv = document.querySelector("#weather-spot");
 let jsonResponse = undefined;
 let usableWeatherObj = undefined;
 
+//IIFE:
+const updateWeatherAudio = (() => {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+
+    console.log(currentHour)
+
+    if (currentHour > 18) {
+        console.log("Evening time identified, beginning audio import...");
+        //document.querySelector("#music-source").setAttribute("src", "./audio.night.ogg");
+
+        import("./audio/night.ogg").then((audio) => {
+            const audioElement = document.querySelector("#audio");
+            const audioSource = document.querySelector("#music-source");
+
+            console.log("Audio import finished! Setting audio to night mode...");
+            console.log(audio.default);
+
+            audioSource.setAttribute("src", audio.default);
+            audioElement.load();
+            audioElement.play();
+
+        });
+    }
+})();
+
+const loadingMode = () => {
+    console.log("Loading mode started!");
+
+    document.querySelector("div").classList.toggle("loading");
+
+    for (let i = 1; i < 6; i++) {
+        const dayHigh = document.querySelector("#day-" + i + "-high");
+        const dayLow = document.querySelector("#day-" + i + "-low");
+        const dayIcon = document.querySelector("#day-" + i + "-icon");
+        const location = document.querySelector("#location-name-display");
+
+        dayHigh.textContent = "--";
+        dayLow.textContent = "--";
+        dayIcon.textContent = "Loading data...";
+        location.textContent = "---"
+    }
+}
+
 const createTimestamp = () => {
     console.log("Printing timestamp...");
 
@@ -30,38 +74,78 @@ const showDays = () => {
     for (let i = 0; i < 5; i++) {
         let dayCount = i + 1;
         let workingDay = document.querySelector("#day-" + dayCount + "-banner");
+
+        //Adjust index down for day counts that push past 6:
+        if ((todayIndex + i) > 6) {
+            todayIndex -= 7;
+        }
         workingDay.textContent = days[todayIndex + i];
     }
 }
 
-const getIcon = (dayNumber, weatherObject) => {
-    let imgUrl;
+const setIcon = (dayNumber, Promise) => {
+    let container = document.querySelector("#day-" + dayNumber + "-icon");
+    container.textContent = "";
 
-    console.log("Getting icon for conditions: " + weatherObject["day" + dayNumber + "conditions"]);
+    const img = new Image();
+    img.src = Promise.default;
+    img
+        .decode() //Allow the image to fully load BEFORE being appended to the page
+        .then(() => {
+            container.appendChild(img);
+        })
+        .catch(encodingError => console.error(encodingError));
+}
+
+const clearIcon = (dayNumber) => {
+    let todayIcon = document.querySelector("#day-" + dayNumber + "-icon");
+    todayIcon.src = "";
+}
+
+const getIcon = (dayNumber, weatherObject) => {
+
+    clearIcon(dayNumber);
+
+    let rightNow = new Date();
 
     if ((dayNumber == 0) && (rightNow.getHours() >= weatherObject.todaySunsetHour)) { //if it's past sunset today,
         console.log("It's night time today! Use a night-time icon");
-    } else {
-        console.log("Show the daytime icon!");
+    }
+    else {
         switch (weatherObject["day" + dayNumber + "conditions"]) {
             case "Rain, Partially cloudy":
-                console.log("Case met!");
                 import("./img/day/partly_cloudy_rain_day.png").then((image) => {
-                    imgUrl = image.default;
-                    //document.querySelector("#day-" + dayNumber + "-icon").src = image.default;
+
+                    setIcon(dayNumber, image);
                 });
                 break;
             case "Snow, Rain, Overcast":
                 import("./img/cloud_rain_snow.png").then((image) => {
-                    console.log("Case met!");
-                    imgUrl = image.default;
-                    //    document.querySelector("#day-" + dayNumber + "-icon").src = image.default;
+                    setIcon(dayNumber, image);
                 })
                 break;
+            case "Partially cloudy":
+                import("./img/day/partly_cloud_day.png").then((image) => {
+                    setIcon(dayNumber, image);
+                })
+                break;
+            case "Rain, Overcast":
+                import("./img/cloud_rain.png").then((image) => {
+                    setIcon(dayNumber, image);
+                })
+                break;
+            case "Overcast":
+                import("./img/cloudy2.png").then((image) => {
+                    setIcon(dayNumber, image);
+                })
+                break;
+            default:
+                console.log("Setting default icon...");
+                import("./img/day/sun.png").then((image) => {
+                    setIcon(dayNumber, image);
+                })
         }
-        //document.querySelector("#day-" + dayNumber + "-icon").src = imgUrl;
     };
-    //document.querySelector("#day-" + dayNumber + "-icon").src = imgUrl;
 }
 
 //parseWeather: take in a JSONified weather response and spit out an object containing relevant data.
@@ -92,13 +176,12 @@ const parseWeather = (jsonResponse) => {
         day5conditions: jsonResponse.days[4].conditions,
     };
 
-    console.log(returnedObj.todaySunsetHour);
+    console.log(returnedObj);
 
     return returnedObj;
 };
 
 const printData = (weatherObject) => {
-    //Clear weather data div:
 
     console.log("Printing data for " + weatherObject.location);
 
@@ -135,6 +218,8 @@ getUtrechtWeather();
 
 //getNewWeather: Allows users to search for weather data for anywhere in the world! Uses the async method.
 const getNewWeather = async () => {
+    loadingMode();
+
     const searchLocation = searchField.value;
     console.log("Executing a new search for data from " + searchLocation);
     try {
@@ -143,6 +228,7 @@ const getNewWeather = async () => {
             throw new Error('Reponse status: ${response.status}');
         }
 
+        document.querySelector("div").classList.toggle("loading");
         const jsonResponse = await response.json();
         console.log("Parsing weather data for " + jsonResponse.address);
         usableWeatherObj = parseWeather(jsonResponse);
