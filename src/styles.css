@@ -4,7 +4,8 @@
 
 body {
     background-color: rgb(17, 130, 175);
-
+    margin: 0;
+    margin-top: 10px;
     font-family: sans-serif;
 }
 
@@ -12,40 +13,133 @@ div {
     color: white;
 }
 
+#background {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 90vh;
+}
+
+#full-banner {
+    flex: 0 1 auto;
+
+    display: flex;
+}
+
 #banner-left {
-    width: 40%;
+    max-width: 40vw;
     background: #71ab82;
     background: radial-gradient(circle, rgba(113, 171, 130, 1) 0%, rgba(0, 128, 0, 1) 44%);
+    flex-grow: 4;
 }
 
 #banner-title {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 300px;
-    line-height: 27px;
+    max-width: 40vw;
+    height: 10%;
     padding: 3px 0px;
+}
+
+#banner-right {
+    background: rgb(3, 237, 3);
+    flex-grow: 6;
+
+    display: flex;
+    /* applies only to inner text */
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#location-name-display {
+    padding-right: 15vw;
+    font-size: 3vw;
 }
 
 h1 {
     margin: 0;
+    font-size: 4vw;
+}
+
+#weather-search {
+    flex: 0 1 auto;
+    align-self: center;
+
+    margin-top: 20px;
 }
 
 button {
     text-shadow: none;
 }
 
+#weather-data {
+    flex: 6 1 auto;
+
+    margin-top: 20px;
+
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.day-banner {
+    background-color: rgb(0, 12, 114);
+    width: 100%;
+    font-size: 4vw;
+}
+
 .day {
-    height: 200px;
-    width: 15%;
-    background-color:  darkblue;
+    height: 80%;
+    width: 18vw;
+
+    background: #025cc9;
+    background: linear-gradient(180deg, rgba(2, 92, 201, 1) 0%, rgba(0, 16, 107, 1) 100%);
+
     text-align: center;
-    padding: 10px;
-    margin-bottom: 20px;
+    padding: 0px;
+    margin: 0 0 20px 0;
     font-size: 25pt;
+}
+
+.weather-icon {
+    width: 16vw;
+}
+
+.high {
+    font-size: 3vw;
+    color: yellow;
+}
+
+.low {
+    color: rgb(188, 255, 255);
+}
+
+#attribution-info {
+    flex: 0.2 1 auto;
+
+    margin-bottom: 10px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    height: 10px;
+}
+
+#attribution-info > span {
+    height: 4vh;
+    font-size: 1.9vw;
 }
 
 #support {
     background-color: rgb(15, 157, 212);
-    padding: 4px;
+}
+
+#timestamp {
+    width: 25vw;
+    background: #082447;
+    background: linear-gradient(90deg, rgba(8, 36, 71, 0) 0%, rgba(145, 0, 0, 1) 33%, rgba(145, 0, 0, 1) 100%);
 }
