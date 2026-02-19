@@ -22,7 +22,7 @@ div {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 90vh;
+    height: 80vh;
 }
 
 #full-banner {
@@ -49,7 +49,7 @@ div {
 
 #banner-right {
     background: rgb(3, 237, 3);
-    flex-grow: 6;
+    flex: 6 1 auto;
 
     display: flex;
     /* applies only to inner text */
@@ -72,6 +72,12 @@ h1 {
     flex: 0 1 auto;
     align-self: center;
 
+    margin-top: 20px;
+}
+
+#weather-units {
+    flex: 0 1 auto;
+    align-self: center;
     margin-top: 20px;
 }
 
@@ -102,24 +108,25 @@ button {
 
 .day {
     width: 18vw;
-    max-height: 580px;
+    max-height: 60vh;
 
     background: #025cc9;
     background: linear-gradient(180deg, rgba(2, 92, 201, 1) 0%, rgba(0, 16, 107, 1) 100%);
 
     text-align: center;
-    padding: 0px;
+    padding: 0 0 20px 0;
     margin: 0 0 20px 0;
     font-size: 25pt;
 }
 
 .icon-holder {
     width: 18vw;
-    height: 15vw;
+    height: 12vw;
 
     text-align: center;
     vertical-align: middle;
     line-height: 15vw;
+    padding-bottom: 30px;
 }
 
 @keyframes iconLoad {
@@ -170,7 +177,7 @@ button {
 }
 
 #timestamp {
-    width: 25vw;
+    width: 30vw;
     background: #082447;
     background: linear-gradient(90deg, rgba(8, 36, 71, 0) 0%, rgba(145, 0, 0, 1) 33%, rgba(145, 0, 0, 1) 100%);
 }

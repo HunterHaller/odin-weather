@@ -9,10 +9,10 @@
 </head>
 
 <body>
-    <!-- <audio autoplay id="audio"> 
+    <audio autoplay id="audio"> 
         <source id="music-source" src="./audio/day.ogg" type="audio/ogg">
     Your browser does not support the audio element! Oh no!!
-    </audio> -->
+    </audio>
     <div id="background">
         <div id="full-banner">
             <div id="banner-left">
@@ -31,6 +31,12 @@
             <input type="text" id="search-field" name="newLocation">
             <button id="weather-button">Forecast</button>
         </div> <!-- End weather-search -->
+
+        <div id="weather-units">
+            <span>Current units: </span>
+            <span id="current-units">F</span>
+            <button id="unit-button">Change units</button>
+        </div>
 
         <div id="weather-data">
             <div class="day" id="day1">

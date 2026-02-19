@@ -191,8 +191,16 @@ const printData = (weatherObject) => {
     showDays();
 
     for (let i = 1; i < 6; i++) {
-        document.querySelector("#day-" + i + "-high").textContent = weatherObject["day" + i + "high"];
-        document.querySelector("#day-" + i + "-low").textContent = weatherObject["day" + i + "low"];
+        const fHigh = weatherObject["day" + i + "high"];
+        const fLow = weatherObject["day" + i + "low"];
+
+        if (currentUnits == "F") {
+            document.querySelector("#day-" + i + "-high").textContent = fHigh;
+            document.querySelector("#day-" + i + "-low").textContent = fLow;
+        } else {
+            document.querySelector("#day-" + i + "-high").textContent = ((fHigh - 32) / 1.8).toFixed(0);
+            document.querySelector("#day-" + i + "-low").textContent = ((fLow - 32) / 1.8).toFixed(0);
+        }
 
         getIcon(i, weatherObject);
     }
@@ -238,8 +246,23 @@ const getNewWeather = async () => {
     }
 }
 
+let currentUnits = "F";
+let currentUnitsSpan = document.querySelector("#current-units");
+
+const changeUnits = () => {
+    if (currentUnits == "F") {
+        currentUnits = "C";
+    } else {
+        currentUnits = "F";
+    }
+
+    currentUnitsSpan.textContent = currentUnits;
+    printData(usableWeatherObj);
+}
+
 const searchField = document.querySelector("#search-field");
 const weatherButton = document.querySelector("#weather-button");
+const unitButton = document.querySelector("#unit-button");
 
 weatherButton.addEventListener("click", getNewWeather);
 
@@ -249,3 +272,5 @@ searchField.addEventListener("keypress", function (event) {
         getNewWeather();
     }
 });
+
+unitButton.addEventListener("click", changeUnits);
